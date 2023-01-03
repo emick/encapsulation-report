@@ -2,6 +2,27 @@
 
 This library produces a report on the dependencies between packages and jars. The dependency encapsulation report can be used by software architects to assess the level of encapsulation of the dependencies. The report can be generated either as standard output or as a PNG image.
 
+
+
+### Example output
+
+For input of https://github.com/luontola/cqrs-hotel, the console output looks like
+
+```
+fi.luontola.cqrshotel -> jackson-annotations-2.9.0.jar
+fi.luontola.cqrshotel -> jackson-core-2.9.5.jar
+...
+fi.luontola.cqrshotel.reservation.events -> moneta-1.1.jar
+fi.luontola.cqrshotel.reservation.queries -> moneta-1.1.jar
+fi.luontola.cqrshotel.reservation.queries -> money-api-1.0.3.jar
+```
+
+and rendered graph looks like
+
+<img src="docs/cqrs-hotel.png" width="300"/>
+
+See [Example output](docs/example_output.md) for full output.
+
 ## Why encapsulate dependencies?
 
 Encapsulating dependencies is important for several reasons:
