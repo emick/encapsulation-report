@@ -2,17 +2,18 @@ package io.erkki.encapsulationreport.run;
 
 import io.erkki.encapsulationreport.EncapsulationReport;
 
-public class StdoutMain {
+import java.util.List;
+import java.util.Optional;
 
-    public static final String ROOT_PACKAGE_PROPERTY = "rootPackage";
+public class StdoutMain extends CommandLineApp {
 
     public static void main(String[] args) {
-        String rootPackage = System.getProperty("rootPackage");
-        if (rootPackage == null) {
-            throw new RuntimeException("Program argument '" + ROOT_PACKAGE_PROPERTY + "' is not set");
-        }
+        String rootPackage = parseProperty(ROOT_PACKAGE_PROPERTY);
+        Optional<String> exclusions = parseOptionalProperty(EXCLUSIONS_PROPERTY);
 
-        var report = EncapsulationReport.analyze(rootPackage);
+        List<String> exclusionList = parseExclusions(exclusions.orElse(null));
+
+        var report = EncapsulationReport.analyze(rootPackage, exclusionList);
         EncapsulationReport.print(report);
     }
 }

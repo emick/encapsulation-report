@@ -11,14 +11,14 @@ import java.util.List;
  */
 public class ClassGraphDependencyScanner {
 
-    public static List<Dependency> scan(String rootPackage) {
+    public static List<Dependency> scan(String rootPackage, List<String> exclusions) {
         try (ScanResult scanResult = new ClassGraph()
                 .enableInterClassDependencies()
                 .enableExternalClasses()
                 // Note: scan must not be limited to rootPackage, because then it will not find all jars
                 .scan()) {
 
-            return ClassGraphDependencyResolver.resolve(rootPackage, scanResult);
+            return ClassGraphDependencyResolver.resolve(rootPackage, scanResult, exclusions);
         }
     }
 }

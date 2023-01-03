@@ -14,13 +14,23 @@ import java.util.stream.Stream;
  */
 public class ClassGraphDependencyResolver {
 
-    public static List<Dependency> resolve(String rootPackage, ScanResult scanResult) {
+    public static List<Dependency> resolve(String rootPackage, ScanResult scanResult, List<String> exclusions) {
         return scanResult.getClassDependencyMap().entrySet().parallelStream()
                 .filter(e -> e.getKey().getPackageName().startsWith(rootPackage))
+                .filter(e -> !isExcluded(e.getKey(), exclusions))
                 .flatMap(e -> resolveDependencies(e.getKey(), e.getValue().stream().toList()))
                 .distinct()
                 .sorted()
                 .toList();
+    }
+
+    private static boolean isExcluded(ClassInfo key, List<String> exclusions) {
+        if (key.getClasspathElementFile() == null) {
+            return false;
+        }
+
+        String path = key.getResource().getURI().toString();
+        return exclusions.stream().anyMatch(pattern -> path.contains(pattern));
     }
 
     private static Stream<Dependency> resolveDependencies(ClassInfo clazz, List<ClassInfo> dependencies) {

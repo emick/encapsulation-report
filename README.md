@@ -31,14 +31,14 @@ Include the local dependency via Maven:
 <dependency>
   <groupId>io.erkki.encapsulationreport</groupId>
   <artifactId>encapsulation-report</artifactId>
-  <version>0.5.0</version>
+  <version>0.6.0</version>
 </dependency>
 
 <!-- When using via unit tests: -->
 <dependency>
   <groupId>io.erkki.encapsulationreport</groupId>
   <artifactId>encapsulation-report</artifactId>
-  <version>0.5.0</version>
+  <version>0.6.0</version>
   <scope>test</scope>
 </dependency>
 ```
@@ -53,13 +53,12 @@ repositories {
 
 dependencies {
     // When using with provided main classes:
-    implementation 'io.erkki.encapsulationreport:encapsulation-report:0.5.0'
+    implementation 'io.erkki.encapsulationreport:encapsulation-report:0.6.0'
 
     // When using via unit tests:
-    testImplementation 'io.erkki.encapsulationreport:encapsulation-report:0.5.0'
+    testImplementation 'io.erkki.encapsulationreport:encapsulation-report:0.6.0'
 }
 ```
-
 
 ### Via provided Main classes
 
@@ -72,7 +71,9 @@ task stdout(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = "io.erkki.encapsulationreport.run.StdoutMain"
     systemProperties = [
-        'rootPackage': 'io.erkki.encapsulationreport'
+        'rootPackage': 'io.erkki.encapsulationreport',
+        // Exclusions delimited by |
+        'exclude': '/build/classes/java/test/'
     ]
 }
 

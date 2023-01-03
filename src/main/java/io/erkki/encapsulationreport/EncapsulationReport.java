@@ -7,6 +7,7 @@ import io.erkki.encapsulationreport.core.DependencyEncapsulationReporter;
 import io.erkki.encapsulationreport.graphviz.GraphvizOutput;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -15,7 +16,11 @@ import java.util.List;
 public class EncapsulationReport {
 
     public static DependencyEncapsulationReport analyze(String rootPackage) {
-        List<Dependency> dependencies = ClassGraphDependencyScanner.scan(rootPackage);
+        return analyze(rootPackage, Collections.emptyList());
+    }
+
+    public static DependencyEncapsulationReport analyze(String rootPackage, List<String> exclusions) {
+        List<Dependency> dependencies = ClassGraphDependencyScanner.scan(rootPackage, exclusions);
         return new DependencyEncapsulationReporter().report(dependencies);
     }
 
